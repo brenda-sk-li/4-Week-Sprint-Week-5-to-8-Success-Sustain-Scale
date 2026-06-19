@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weeks 5–8: Sustain & Scale — 4-Week Sprint</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;900&family=Lato:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg:       #2E2A4F;
+            --bg-card:  #3A3560;
+            --bg-deep:  #231F3E;
+            --gold:     #E6C748;
+            --blue:     #0144AC;
+            --teal:     #81C7A5;
+            --white:    #FFFFFF;
+            --muted:    #C8C4E0;
+            --danger:   #E87070;
+            --orange:   #C44D00;
+            --font-h:   'Montserrat', sans-serif;
+            --font-b:   'Lato', sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--white);
+            font-family: var(--font-b);
+            font-size: 18px;
+            line-height: 1.7;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            background: linear-gradient(135deg, #231F3E 0%, #2E2A4F 40%, #1A3A1A 100%);
+            padding: 72px 24px 56px;
+            text-align: center;
+            border-bottom: 3px solid var(--gold);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 70% 30%, rgba(129,199,165,0.09) 0%, transparent 55%),
+                        radial-gradient(ellipse at 20% 80%, rgba(230,199,72,0.06) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .hero-tag {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--bg-deep);
+            font-family: var(--font-h);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 6px 18px;
+            border-radius: 100px;
+            margin-bottom: 24px;
+        }
+        .hero h1 {
+            font-family: var(--font-h);
+            font-size: clamp(2.4rem, 6vw, 4rem);
+            font-weight: 900;
+            line-height: 1.15;
+            color: var(--white);
+            margin-bottom: 12px;
+        }
+        .hero h1 span { color: var(--gold); }
+        .hero-sub {
+            font-family: var(--font-b);
+            font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+            color: var(--muted);
+            max-width: 780px;
+            margin: 0 auto 32px;
+            line-height: 1.8;
+        }
+        .hero-badges {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .hero-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-family: var(--font-h);
+            font-size: 0.95rem;
+            font-weight: 700;
+            flex: 1;
+            min-width: 220px;
+            text-align: center;
+        }
+        .hero-badge.weeks57 {
+            background: rgba(129,199,165,0.12);
+            border: 1.5px solid var(--teal);
+            color: var(--teal);
+        }
+        .hero-badge.week8 {
+            background: rgba(230,199,72,0.12);
+            border: 1.5px solid var(--gold);
+            color: var(--gold);
+        }
+
+        /* ── LAYOUT ── */
+        .container {
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+        section { padding: 64px 32px; }
+        section:nth-child(even) { background: var(--bg-deep); }
+
+        .section-label {
+            font-family: var(--font-h);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+        .section-title {
+            font-family: var(--font-h);
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        .section-intro {
+            font-size: 1.1rem;
+            color: var(--muted);
+            max-width: 100%;
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        /* ── OWNERSHIP BANNER ── */
+        .ownership-banner {
+            background: rgba(129,199,165,0.1);
+            border: 2px solid var(--teal);
+            border-radius: 14px;
+            padding: 24px 32px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 48px;
+        }
+        .ownership-icon { font-size: 2rem; flex-shrink: 0; }
+        .ownership-title {
+            font-family: var(--font-h);
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--teal);
+            margin-bottom: 6px;
+        }
+        .ownership-body {
+            font-size: 1rem;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+        .ownership-body strong { color: var(--white); }
+
+        /* ── REFINEMENT CYCLE VISUAL ── */
+        .cycle-container {
+            position: relative;
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        /* Center hub */
+        .cycle-hub {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1A1040, #231F3E);
+            border: 3px solid var(--teal);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 40px;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 0 40px rgba(129,199,165,0.15);
+        }
+        .cycle-hub-icon { font-size: 2.2rem; margin-bottom: 6px; }
+        .cycle-hub-label {
+            font-family: var(--font-h);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--teal);
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        /* Cycle steps — horizontal row with arrows */
+        .cycle-flow {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            margin-bottom: 32px;
+        }
+        .cycle-step-wrap {
+            display: flex;
+            align-items: stretch;
+            flex: 1;
+        }
+        .cycle-step {
+            flex: 1;
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 28px 20px;
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+        }
+        .cycle-step.cs1 { border-top: 4px solid var(--teal); }
+        .cycle-step.cs2 { border-top: 4px solid var(--gold); }
+        .cycle-step.cs3 { border-top: 4px solid #4A90D9; }
+        .cycle-step.cs4 { border-top: 4px solid var(--orange); }
+
+        .cycle-step-icon { font-size: 2rem; margin-bottom: 10px; }
+        .cycle-step-num {
+            font-family: var(--font-h);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .cs1 .cycle-step-num { color: var(--teal); }
+        .cs2 .cycle-step-num { color: var(--gold); }
+        .cs3 .cycle-step-num { color: #4A90D9; }
+        .cs4 .cycle-step-num { color: var(--orange); }
+
+        .cycle-step-name {
+            font-family: var(--font-h);
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+        .cycle-step-desc {
+            font-size: 0.88rem;
+            color: var(--muted);
+            line-height: 1.65;
+        }
+
+        /* Arrow between steps */
+        .cycle-arrow {
+            flex-shrink: 0;
+            width: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            font-size: 1.4rem;
+            font-weight: 900;
+            opacity: 0.7;
+        }
+
+        /* Loop back indicator */
+        .cycle-loop {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px 28px;
+            background: rgba(129,199,165,0.08);
+            border: 1.5px dashed var(--teal);
+            border-radius: 12px;
+            margin-top: 8px;
+        }
+        .cycle-loop-text {
+            font-family: var(--font-h);
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--teal);
+            letter-spacing: 0.5px;
+        }
+
+        /* What changes in this phase */
+        .changes-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .change-card {
+            background: var(--bg-card);
+            border-radius: 14px;
+            padding: 26px 22px;
+            border-left: 4px solid var(--teal);
+        }
+        .change-card.gold { border-left-color: var(--gold); }
+        .change-card.blue { border-left-color: #4A90D9; }
+        .change-icon { font-size: 1.6rem; margin-bottom: 10px; }
+        .change-title {
+            font-family: var(--font-h);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--teal);
+            margin-bottom: 8px;
+        }
+        .change-card.gold .change-title { color: var(--gold); }
+        .change-card.blue .change-title { color: #4A90D9; }
+        .change-body {
+            font-size: 0.95rem;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        /* ── WEEK 8 — MICHELIN RE-INSPECTION ── */
+        .reinspect-hero {
+            background: linear-gradient(135deg, #1A1040, #0A2A0A, #1A1040);
+            border-radius: 20px;
+            padding: 48px 48px 36px;
+            border: 2px solid var(--gold);
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .reinspect-hero::before {
+            content: '⭐⭐⭐';
+            position: absolute;
+            font-size: 6rem;
+            opacity: 0.04;
+            top: 10px;
+            right: 20px;
+            pointer-events: none;
+        }
+        .reinspect-stars {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .reinspect-title {
+            font-family: var(--font-h);
+            font-size: clamp(1.4rem, 3vw, 2rem);
+            font-weight: 900;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+        .reinspect-sub {
+            font-size: 1.05rem;
+            color: var(--muted);
+            max-width: 680px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+        .reinspect-sub strong { color: var(--white); }
+
+        /* 3S Cards */
+        .three-s-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        .s-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 32px 26px;
+            position: relative;
+            overflow: hidden;
+        }
+        .s-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 5px;
+        }
+        .s-card.success::after  { background: var(--gold); }
+        .s-card.sustain::after  { background: var(--teal); }
+        .s-card.scale::after    { background: #4A90D9; }
+
+        .s-letter {
+            font-family: var(--font-h);
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 8px;
+            opacity: 0.15;
+            position: absolute;
+            top: 16px;
+            right: 20px;
+        }
+        .s-card.success .s-letter { color: var(--gold); }
+        .s-card.sustain .s-letter { color: var(--teal); }
+        .s-card.scale   .s-letter { color: #4A90D9; }
+
+        .s-icon { font-size: 1.8rem; margin-bottom: 10px; }
+        .s-label {
+            font-family: var(--font-h);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .s-card.success .s-label { color: var(--gold); }
+        .s-card.sustain .s-label { color: var(--teal); }
+        .s-card.scale   .s-label { color: #4A90D9; }
+
+        .s-name {
+            font-family: var(--font-h);
+            font-size: 1.15rem;
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 14px;
+        }
+        .s-questions {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .s-questions li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.95rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+        .s-q-bullet {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--bg-deep);
+        }
+        .s-card.success .s-q-bullet { background: var(--gold); }
+        .s-card.sustain .s-q-bullet { background: var(--teal); }
+        .s-card.scale   .s-q-bullet { background: #4A90D9; }
+
+        /* Star verdict */
+        .star-verdict {
+            background: linear-gradient(135deg, #1A1040, #231F3E);
+            border: 2px solid var(--gold);
+            border-radius: 16px;
+            padding: 36px 40px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        .verdict-item {}
+        .verdict-stars { font-size: 1.6rem; margin-bottom: 8px; }
+        .verdict-label {
+            font-family: var(--font-h);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+        .verdict-desc {
+            font-size: 0.9rem;
+            color: var(--muted);
+            line-height: 1.65;
+        }
+
+        /* ── JOURNEY COMPLETE ── */
+        .journey-complete {
+            background: linear-gradient(135deg, #1A1040, #0A2A5E, #1A1040);
+            border-radius: 20px;
+            padding: 56px 48px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 0;
+        }
+        .journey-complete::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 50%, rgba(230,199,72,0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .journey-icon { font-size: 3.5rem; margin-bottom: 20px; display: block; }
+        .journey-title {
+            font-family: var(--font-h);
+            font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+            font-weight: 900;
+            color: var(--gold);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        .journey-body {
+            font-size: 1.1rem;
+            color: var(--muted);
+            max-width: 720px;
+            margin: 0 auto 32px;
+            line-height: 1.8;
+        }
+        .journey-body strong { color: var(--white); }
+
+        .timeline-summary {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0;
+            flex-wrap: nowrap;
+            margin: 0 auto;
+            max-width: 900px;
+        }
+        .tl-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+        .tl-dot {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-h);
+            font-size: 0.78rem;
+            font-weight: 900;
+            color: var(--bg-deep);
+            margin-bottom: 8px;
+            flex-shrink: 0;
+        }
+        .tl-dot.small-text { font-size: 0.58rem; }
+        .tl-item:nth-child(1)  .tl-dot { background: var(--teal); }
+        .tl-item:nth-child(3)  .tl-dot { background: #4A90D9; }
+        .tl-item:nth-child(5)  .tl-dot { background: var(--gold); }
+        .tl-item:nth-child(7)  .tl-dot { background: #C77DFF; }
+        .tl-item:nth-child(9)  .tl-dot { background: var(--orange); }
+        .tl-item:nth-child(11) .tl-dot { background: var(--teal); }
+        .tl-item:nth-child(13) .tl-dot { background: var(--gold); }
+
+        .tl-label {
+            font-family: var(--font-h);
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-align: center;
+            line-height: 1.3;
+            min-height: 48px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        .tl-line {
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(230,199,72,0.3), rgba(230,199,72,0.6));
+            margin-bottom: 24px;
+            min-width: 20px;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--bg-deep);
+            border-top: 2px solid rgba(230,199,72,0.3);
+            padding: 28px 24px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+        footer strong { color: var(--gold); }
+
+        /* ── SCROLL TOP ── */
+        .scroll-top {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--gold);
+            color: var(--bg-deep);
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-tag">4-Week Sprint Program</div>
+    <h1>Weeks 5–8: <span>Success, Sustain & Scale</span></h1>
+    <p class="hero-sub">The build is done. The first inspection is complete.<br><br>Now the TACT team owns the cycle — and Week 8 is the return of the Michelin Inspector.</p>
+    <div class="hero-badges">
+        <div class="hero-badge weeks57">🔄 Weeks 5–7: Independent Refinement</div>
+        <div class="hero-badge week8">⭐ Week 8: The Re-Inspection</div>
+    </div>
+</div>
+
+<!-- SECTION 1 — WEEKS 5-7 -->
+<section>
+    <div class="container">
+        <div class="section-label">Weeks 5 – 7</div>
+        <h2 class="section-title">The TACT Team Owns the Cycle</h2>
+        <p class="section-intro">The facilitator steps back. No scheduled sessions, no hand-holding. The TACT team runs the inspect → surgery → refine cycle independently — building the organizational muscle to maintain the bot without external support. This is where adoption either becomes habit or fades away.</p>
+
+        <div class="ownership-banner">
+            <div class="ownership-icon">🔑</div>
+            <div>
+                <div class="ownership-title">Facilitator Steps Back — TACT Team Steps Up</div>
+                <div class="ownership-body">Weeks 5–7 are <strong>fully TACT team owned</strong>. The Super User runs the improvement cycle. Change Agents drive adoption. The Sponsor monitors and removes blockers. If the team needs the facilitator to run every refinement session, the bot was never truly adopted — it was borrowed.</div>
+            </div>
+        </div>
+
+        <!-- Cycle Visual -->
+        <div class="cycle-container">
+            <div class="cycle-flow">
+                <div class="cycle-step-wrap">
+                    <div class="cycle-step cs1">
+                        <div class="cycle-step-icon">🔍</div>
+                        <div class="cycle-step-num">Phase 1</div>
+                        <div class="cycle-step-name">Inspect</div>
+                        <div class="cycle-step-desc">Run the Michelin Inspector mindset. Test with real work scenarios. Document what works and what doesn't — Like / Dislike, Input / Output, Why, How it should behave.</div>
+                    </div>
+                </div>
+                <div class="cycle-arrow">›</div>
+                <div class="cycle-step-wrap">
+                    <div class="cycle-step cs2">
+                        <div class="cycle-step-icon">🔬</div>
+                        <div class="cycle-step-num">Phase 2</div>
+                        <div class="cycle-step-name">Diagnose</div>
+                        <div class="cycle-step-desc">Read the testing log. Identify patterns across testers. One complaint is noise. Three testers flagging the same behavior is a symptom that needs surgery.</div>
+                    </div>
+                </div>
+                <div class="cycle-arrow">›</div>
+                <div class="cycle-step-wrap">
+                    <div class="cycle-step cs3">
+                        <div class="cycle-step-icon">🔪</div>
+                        <div class="cycle-step-num">Phase 3</div>
+                        <div class="cycle-step-name">Surgery</div>
+                        <div class="cycle-step-desc">Super User applies the Live Brain Surgery methodology independently. Targeted fix — one section at a time. Confirm before cutting. Validate after transplanting.</div>
+                    </div>
+                </div>
+                <div class="cycle-arrow">›</div>
+                <div class="cycle-step-wrap">
+                    <div class="cycle-step cs4">
+                        <div class="cycle-step-icon">📈</div>
+                        <div class="cycle-step-num">Phase 4</div>
+                        <div class="cycle-step-name">Measure</div>
+                        <div class="cycle-step-desc">Track adoption weekly. How many active users? How often? What are the feedback trends? Is the bot becoming part of daily workflow — or sitting unused?</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cycle-loop">
+                <span style="font-size:1.2rem;">🔄</span>
+                <div class="cycle-loop-text">Repeat as needed through Week 7 — then prepare for the re-inspection</div>
+                <span style="font-size:1.2rem;">🔄</span>
+            </div>
+        </div>
+
+        <div class="changes-grid">
+            <div class="change-card">
+                <div class="change-icon">🚀</div>
+                <div class="change-title">Change Agents Lead Rollout</div>
+                <div class="change-body">Change Agents move from testing to training. They are the internal champions who make adoption happen — demonstrating, coaching, and normalizing the bot within the broader team.</div>
+            </div>
+            <div class="change-card gold">
+                <div class="change-icon">📊</div>
+                <div class="change-title">Sponsor Monitors Progress</div>
+                <div class="change-body">The Sponsor tracks adoption metrics and holds the team accountable. If laggards are identified — a plan exists to address them. Adoption doesn't happen by accident at this stage.</div>
+            </div>
+            <div class="change-card blue">
+                <div class="change-icon">🧠</div>
+                <div class="change-title">Super User Builds the Muscle</div>
+                <div class="change-body">Every independent surgery the Super User runs builds capability. By Week 8, they are no longer dependent on the facilitator — they own the bot, the prompt, and the improvement process.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 2 — WEEK 8 RE-INSPECTION -->
+<section>
+    <div class="container">
+        <div class="section-label">Week 8</div>
+        <h2 class="section-title">The Michelin Re-Inspection</h2>
+        <p class="section-intro">In Week 3, the inspector arrived for the first time. The kitchen wasn't perfect — that's expected. Weeks 4 through 7 were the kitchen refining itself. Week 8 is the return visit. The same fixed standard. The same inspector. Different results.</p>
+
+        <div class="reinspect-hero">
+            <span class="reinspect-stars">⭐⭐⭐</span>
+            <div class="reinspect-title">Did You Earn the Stars?</div>
+            <div class="reinspect-sub">Week 8 answers four questions — and the answers determine what happens next. <strong>This is not a celebration meeting.</strong> It is an honest assessment of where the bot landed against the success criteria defined at the very beginning of the sprint.</div>
+        </div>
+
+        <!-- 3S Cards -->
+        <div class="three-s-grid">
+            <div class="s-card success">
+                <div class="s-letter">S</div>
+                <div class="s-icon">🏆</div>
+                <div class="s-label">First S</div>
+                <div class="s-name">Success</div>
+                <ul class="s-questions">
+                    <li><span class="s-q-bullet">?</span><span>Against the success criteria defined in Week 0 — how many did we hit?</span></li>
+                    <li><span class="s-q-bullet">?</span><span>How many did we miss — and why?</span></li>
+                    <li><span class="s-q-bullet">?</span><span>What do the numbers actually say — not what we hoped they would say?</span></li>
+                    <li><span class="s-q-bullet">?</span><span>Is this bot delivering measurable value, or is it being used out of obligation?</span></li>
+                </ul>
+            </div>
+            <div class="s-card sustain">
+                <div class="s-letter">S</div>
+                <div class="s-icon">🌱</div>
+                <div class="s-label">Second S</div>
+                <div class="s-name">Sustain</div>
+                <ul class="s-questions">
+                    <li><span class="s-q-bullet">?</span><span>Is the bot part of daily workflow — or still being used occasionally?</span></li>
+                    <li><span class="s-q-bullet">?</span><span>What is the adoption rate across the team?</span></li>
+                    <li><span class="s-q-bullet">?</span><span>Who are the laggards — and what is the plan to address them?</span></li>
+                    <li><span class="s-q-bullet">?</span><span>Does the Super User have full ownership to maintain and improve without support?</span></li>
+                </ul>
+            </div>
+            <div class="s-card scale">
+                <div class="s-letter">S</div>
+                <div class="s-icon">🚀</div>
+                <div class="s-label">Third S</div>
+                <div class="s-name">Scale</div>
+                <ul class="s-questions">
+                    <li><span class="s-q-bullet">?</span><span>Did we discover use cases this bot can handle beyond the original scope?</span></li>
+                    <li><span class="s-q-bullet">?</span><span>Which other teams or regions would benefit from the same solution?</span></li>
+                    <li><span class="s-q-bullet">?</span><span>What is the rollout plan — and who owns it?</span></li>
+                    <li><span class="s-q-bullet">?</span><span>Does this success story become a template for the next sprint?</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Star Verdict -->
+        <div class="star-verdict">
+            <div class="verdict-item">
+                <div class="verdict-stars">⭐</div>
+                <div class="verdict-label">1 Star — Functional</div>
+                <div class="verdict-desc">Bot works under standard conditions. Adoption is partial. Success criteria partially met. More refinement needed before scaling.</div>
+            </div>
+            <div class="verdict-item">
+                <div class="verdict-stars">⭐⭐</div>
+                <div class="verdict-label">2 Stars — Adopted</div>
+                <div class="verdict-desc">Bot is part of daily workflow. Most success criteria met. Team is self-sufficient. Ready for controlled expansion to adjacent teams.</div>
+            </div>
+            <div class="verdict-item">
+                <div class="verdict-stars">⭐⭐⭐</div>
+                <div class="verdict-label">3 Stars — Exceptional</div>
+                <div class="verdict-desc">All success criteria met or exceeded. New use cases discovered. Super User fully independent. Success story documented and ready to replicate.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 3 — JOURNEY COMPLETE -->
+<section>
+    <div class="container">
+        <div class="journey-complete">
+            <span class="journey-icon">🎯</span>
+            <div class="journey-title">The Sprint Is Complete.<br>The Work Is Just Beginning.</div>
+            <div class="journey-body">
+                A sprint that reaches Week 8 with a 3-star result is not the end of the story — it is the <strong>proof of concept</strong> that unlocks the next chapter. The methodology is repeatable. The TACT team has the muscle. The success story is documented.<br><br>
+                <strong>The bot you built is the template. The next team inherits the playbook.</strong>
+            </div>
+
+            <div class="timeline-summary">
+                <div class="tl-item">
+                    <div class="tl-dot">W0</div>
+                    <div class="tl-label">Plan &<br>Prepare</div>
+                </div>
+                <div class="tl-line"></div>
+                <div class="tl-item">
+                    <div class="tl-dot">W1</div>
+                    <div class="tl-label">Discover</div>
+                </div>
+                <div class="tl-line"></div>
+                <div class="tl-item">
+                    <div class="tl-dot">W2</div>
+                    <div class="tl-label">Build</div>
+                </div>
+                <div class="tl-line"></div>
+                <div class="tl-item">
+                    <div class="tl-dot">W3</div>
+                    <div class="tl-label">Test</div>
+                </div>
+                <div class="tl-line"></div>
+                <div class="tl-item">
+                    <div class="tl-dot">W4</div>
+                    <div class="tl-label">Improve</div>
+                </div>
+                <div class="tl-line"></div>
+                <div class="tl-item">
+                    <div class="tl-dot small-text">W5–7</div>
+                    <div class="tl-label">Repeat<br>W3 & W4</div>
+                </div>
+                <div class="tl-line"></div>
+                <div class="tl-item">
+                    <div class="tl-dot">W8</div>
+                    <div class="tl-label">Success,<br>Sustain<br>& Scale</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <strong>Weeks 5–8: Success, Sustain & Scale</strong> &nbsp;·&nbsp; 4-Week Sprint Program &nbsp;·&nbsp; Brenda Li &nbsp;·&nbsp; 2026
+</footer>
+
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+    const btn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => {
+        btn.style.display = window.scrollY > 300 ? 'flex' : 'none';
+    });
+</script>
+
+</body>
+</html>
